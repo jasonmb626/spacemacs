@@ -582,10 +582,11 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (setq zettel_base (getenv "ZETTEL_BASE"))
   (setq org-track-ordered-property-with-tag t)
   (setq org-use-property-inheritance t)
   (setq org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n!)" "IN PROGRESS(i!)" "BLOCKED(b!)" "PEND SET STATE(p!)" "TO DELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "FORWARDED(F!)" "TICKLE(T!)" "|" "CANCELED(c!)" "DONE(d!)")))
+        '((sequence "TODO(t!)" "NEXT(n!)" "IN PROGRESS(i!)" "BLOCKED(b@/!)" "PEND SET STATE(p!)" "TO DELEGATE(g!)" "DELEGATED(D@/!)" "FOLLOWUP(f!)" "FORWARDED(F@/!)" "TICKLE(T!)" "|" "CANCELED(c!)" "DONE(d!)")))
   (setq org-clock-in-switch-to-state "IN PROGRESS")
   (setq org-refile-targets '((org-agenda-files :maxlevel . 2))) ; any agenda file will show up in the list when choosing to refile
   (setq org-log-into-drawer "LOGBOOK") ;when adding a note, put them in logbook drawer
@@ -611,7 +612,7 @@ before packages are loaded."
                                     ;; (Re)set org-agenda files. Spacemacs auto-updates the list list above in custom-set-variables
                                     (setq org-agenda-files ;Adds all .org files to agenda unless they are in the archive folder
                                           (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
-                                                      (directory-files-recursively "/media/sf_Shared/zettelkasten" "\\.org$")
+                                                      (directory-files-recursively zettel_base "\\.org$")
                                                       ))
                                     ))
   (setq org-todo-keyword-faces
@@ -620,7 +621,6 @@ before packages are loaded."
           ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
           ("DELEGATED" . "pink")
           ("NEXT" . "#008080")))
-  (setq zettel_base (getenv "ZETTEL_BASE"))
   (setq org-capture-templates
         '(
           ("S" "Store" entry
@@ -748,10 +748,6 @@ before packages are loaded."
               (define-key evil-normal-state-map (kbd "T") 'org-todo)
               (org-indent-mode)
               ))
-  (add-hook 'org-after-todo-state-change-hook (lambda ()
-                                                (interactive)
-                                                (message "hasdfasd")
-                                                (my/org-set-property-when-state-changes)))
   ;;useful functions
   (defun my/org-set-property-when-state-changes ()
     (interactive)
