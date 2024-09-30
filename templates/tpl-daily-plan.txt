@@ -2,6 +2,7 @@
 =========
 - [ ] Review all "PEND STATE" entries and assign them proper todos
 - [ ] See if there are any updates on incidents sent to other groups.
+- [ ] Add Meetings from Outlook 365 to calendar.
 Braindump 1:
 - [ ] Set a timer for 5 minutes and write down what's in your mind
 
