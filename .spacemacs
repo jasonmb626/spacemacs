@@ -592,7 +592,16 @@ before packages are loaded."
   ;; TODO find out how to bring up menu to choose state when clocking out
   (setq org-clock-out-switch-to-state "PEND SET STATE")
   (setq org-log-reschedule 'time) ;puts a note in logbook drawer when a task is rescheudled
-  (setq org-tag-alist '(("@STORE" . ?t) ("@PLUST2" . ?p)(:startgroup . nil)("@INCIDENT" . ?i) ("@NUCLEUS-INC" . ?n) ("SCRIPTING" . ?s) ("MEETING" . ?m)))
+  (setq org-tag-alist '((""@NEW" . ?N)
+                        (:startgroup . nil)
+                        ("@INCIDENT" . ?i) 
+                        ("@NUCLEUS-INC" . ?n) 
+                        ("SCRIPTING" . ?s) 
+                        ("CUST-MEETING" . ?c) 
+                        ("TCS-MEETING" . ?t) 
+                        ("CRQ" . ?c) 
+                        ("MISC" . ?m) 
+                        ("W-O-REQ" . ?w)))
                                         ;TODO Updated these based on https://youtu.be/PVsSOmUB7ic?si=-jYPMOlGBHw_ihEa&t=1568
   ;; Save Org buffers after refiling!
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
