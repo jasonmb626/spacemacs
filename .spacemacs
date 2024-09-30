@@ -650,15 +650,15 @@ before packages are loaded."
            "* %U - %^{Activity}")
           ("d" "Daily plan" plain
            (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/tpl-daily-plan.txt")
+           (file "~/Documents/zettelkasten/templates/tpl-daily-plan.txt")
            :immediate-finish t)
           ("w" "Daily plan" plain
            (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/tpl-weekly-plan.txt")
+           (file "~/Documents/zettelkasten/templates/tpl-weekly-plan.txt")
            :immediate-finish t)
           ("m" "Monthly plan" plain
            (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/tpl-monthly-plan.txt")
+           (file "~/Documents/zettelkasten/templates/tpl-monthly-plan.txt")
            :immediate-finish t)
           ))
   (setq org-enforce-todo-dependencies t)
