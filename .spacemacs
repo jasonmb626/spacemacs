@@ -748,7 +748,6 @@ before packages are loaded."
               (define-key evil-normal-state-map (kbd "T") 'org-todo)
               (org-indent-mode)
               ))
-  (message "Setting state change hook")
   (add-hook 'org-after-todo-state-change-hook (lambda ()
                                                 (interactive)
                                                 (message "hasdfasd")
@@ -756,11 +755,12 @@ before packages are loaded."
   ;;useful functions
   (defun my/org-set-property-when-state-changes ()
     (interactive)
-    (message "HIHI")
-    (message (org-get-todo-state))
     (when (equal (org-get-todo-state) "BLOCKED")
       (let (msg (read-string "Describe blocker: "))
         (org-set-property "BLOCKED_BY" msg)))
+    (when (equal (org-get-todo-state) "FORWARDED")
+      (let (msg (read-string "To Whom?: "))
+        (org-set-property "FORWARDED_TO" msg)))
     )
   (defun my/generate-new-store-file-name () "Ask for a title and generate a file name based on it"
          (let* ((store_nbr (read-string "Store #: "))
