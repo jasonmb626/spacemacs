@@ -36,6 +36,19 @@
 
 **Quick Start**
 
+* Disruptive change from upstream if you don't address it  
+
+This configuration requires an environment variable of ZETTEL_BASE to be set to the base directory of your zettelkasten.
+
+(The zettelkasten base is the one directly under which 0-inbox, 1-projects folders etc. live)
+
+Exampe:
+In /etc/environment
+
+ZETTEL_BASE=/home/jason/Documents/zettelkasten
+
+-------------------------------------------------------------------------------------
+
 If you *don't* have an existing Emacs setup and want to run Spacemacs as your
 configuration, and if you have all [prerequisites](#prerequisites) installed,
 you can install Spacemacs with one line:
