@@ -1,8 +1,9 @@
    DR BOOTUP
    =========
    - [ ] Review all "PEND STATE" entries and assign them proper todos
+   - [ ] See if there are any updates on incidents sent to other groups.
    Braindump 1:
-   - [X] Set a timer for 5 minutes and write down what's in your mind
+   - [ ] Set a timer for 5 minutes and write down what's in your mind
 
    GET CLEAN
    =========
