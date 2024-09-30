@@ -615,18 +615,18 @@ before packages are loaded."
         '(
           ("S" "Store" entry
            (file (lambda() (interactive) (my/generate-new-store-file-name)))
-           "* %(format my/org-capture-store_nbr)\n:PROPERTIES:\nID: str%(format my/org-capture-store_nbr)\nCREATED: %U\n:END:\n\n%?"
+           (file "~/Documents/zettelkasten/templates/store-template.txt")
            :empty-lines-after 2)
           ("i" "Incident" entry
            (file (lambda() (interactive) (my/generate-new-inc-file-name)))
-           "* %(format my/org-capture-inc)\n:PROPERTIES:\nSUMMARY: \nID: %(format my/org-capture-inc)\nSTORE: \nPOC: \nCREATED: %U\n:END:\n\n%?"
+           (file "~/Documents/zettelkasten/templates/inc-template.txt")
            :empty-lines-after 2)
           ("t" "TODO entry" entry
-           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
+           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
            "* TODO %^{Description} :NEW:\n  Desired outcome: %?\n  :LOGBOOK:\n  - Added: %U\n  :END:"
            :empty-lines-before 1)
           ("i" "Incoming Phone call" entry
-           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
+           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
            (file "~/Documents/zettelkasten/templates/in-call-template.txt")
            :empty-lines-after 2)
           ("o" "Outgoing Phone call" entry
