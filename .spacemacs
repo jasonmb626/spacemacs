@@ -592,7 +592,7 @@ before packages are loaded."
   ;; TODO find out how to bring up menu to choose state when clocking out
   (setq org-clock-out-switch-to-state "PEND SET STATE")
   (setq org-log-reschedule 'time) ;puts a note in logbook drawer when a task is rescheudled
-  (setq org-tag-alist '((""@NEW" . ?N)
+  (setq org-tag-alist '(("@NEW" . ?N)
                         (:startgroup . nil)
                         ("@INCIDENT" . ?i) 
                         ("@NUCLEUS-INC" . ?n) 
