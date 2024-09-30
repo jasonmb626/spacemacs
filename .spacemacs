@@ -633,6 +633,10 @@ before packages are loaded."
            (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
            (file "~/Documents/zettelkasten/templates/out-call-template.txt")
            :empty-lines-after 2)
+          ("e" "Email" entry
+           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
+           (file "~/Documents/zettelkasten/templates/email-template.txt")
+           :empty-lines-after 2)
           ("s" "Script" entry
            (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
            (file "~/Documents/zettelkasten/templates/script-template.txt")

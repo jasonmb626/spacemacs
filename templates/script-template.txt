@@ -1,0 +1,12 @@
+* TODO Script: %^{Script_Name} :SCRIPT:
+  :PROPERTIES:
+  :plcss01: %^{plcss01}
+  :plw: %^{plw}
+  :Working_Directory: %^{Working_Directory}
+  :Run_type: %^{Run_type}
+  :PBI/PKE: %^{PBIPKE}
+  :END:
+  :LOGBOOK:
+  - Added: %U
+  :END:
+  Purpose: %?
