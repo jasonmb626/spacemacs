@@ -594,13 +594,13 @@ before packages are loaded."
   (setq org-log-reschedule 'time) ;puts a note in logbook drawer when a task is rescheudled
   (setq org-tag-alist '(("@NEW" . ?N)
                         (:startgroup . nil)
-                        ("@INCIDENT" . ?i) 
-                        ("@NUCLEUS-INC" . ?n) 
-                        ("SCRIPTING" . ?s) 
-                        ("CUST-MEETING" . ?c) 
-                        ("TCS-MEETING" . ?t) 
-                        ("CRQ" . ?c) 
-                        ("MISC" . ?m) 
+                        ("@INCIDENT" . ?i)
+                        ("@NUCLEUS-INC" . ?n)
+                        ("SCRIPTING" . ?s)
+                        ("CUST-MEETING" . ?c)
+                        ("TCS-MEETING" . ?t)
+                        ("CRQ" . ?c)
+                        ("MISC" . ?m)
                         ("W-O-REQ" . ?w)))
                                         ;TODO Updated these based on https://youtu.be/PVsSOmUB7ic?si=-jYPMOlGBHw_ihEa&t=1568
   ;; Save Org buffers after refiling!
@@ -620,54 +620,55 @@ before packages are loaded."
           ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
           ("DELEGATED" . "pink")
           ("NEXT" . "#008080")))
+  (setq zettel_base (getenv "ZETTEL_BASE"))
   (setq org-capture-templates
         '(
           ("S" "Store" entry
            (file (lambda() (interactive) (my/generate-new-store-file-name)))
-           (file "/media/sf_Shared/zettelkasten/templates/store-template.txt")
+           (file (concat zettel_base "/templates/store-template.txt"))
            :empty-lines-after 2)
           ("i" "Incident" entry
            (file (lambda() (interactive) (my/generate-new-inc-file-name)))
-           (file "/media/sf_Shared/zettelkasten/templates/inc-template.txt")
+           (file (concat zettel_base "/templates/inc-template.txt"))
            :empty-lines-after 2)
           ("t" "TODO entry" entry
-           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
+           (file+headline (concat zettel_base "/journal.org" "Capture"))
            "* TODO %^{Description} :NEW:\n  Desired outcome: %?\n  :LOGBOOK:\n  - Added: %U\n  :END:"
            :empty-lines-before 1)
           ("i" "Incoming Phone call" entry
-           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
-           (file "/media/sf_Shared/zettelkasten/templates/in-call-template.txt")
+           (file+olp+datetree (concat zettel_base "/journal.org"))
+           (file (concat zettel_base "/templates/in-call-template.txt"))
            :empty-lines-after 2)
           ("o" "Outgoing Phone call" entry
-           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
-           (file "/media/sf_Shared/zettelkasten/templates/out-call-template.txt")
+           (file+headline (concat zettel_base "/journal.org" "Capture"))
+           (file (concat zettel_base "/templates/out-call-template.txt"))
            :empty-lines-after 2)
           ("e" "Email" entry
-           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
-           (file "/media/sf_Shared/zettelkasten/templates/email-template.txt")
+           (file+headline (concat zettel_base "/journal.org" "Capture"))
+           (file (concat zettel_base "/templates/email-template.txt"))
            :empty-lines-after 2)
           ("s" "Script" entry
-           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
-           (file "/media/sf_Shared/zettelkasten/templates/script-template.txt")
+           (file+headline (concat zettel_base "/journal.org" "Capture"))
+           (file (concat zettel_base "/templates/script-template.txt"))
            :empty-lines-after 2)
           ("m" "Meeting" entry
-           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
-           (file "/media/sf_Shared/zettelkasten/templates/meeting-template.txt")
+           (file+headline (concat zettel_base "/journal.org" "Capture"))
+           (file (concat zettel_base "/templates/meeting-template.txt"))
            :empty-lines-after 2)
           ("j" "Journal entry" entry
-           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
+           (file+olp+datetree (concat zettel_base "/journal.org"))
            "* %U - %^{Activity}")
           ("d" "Daily plan" plain
-           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
-           (file "/media/sf_Shared/zettelkasten/templates/tpl-daily-plan.txt")
+           (file+olp+datetree (concat zettel_base "/journal.org"))
+           (file (concat zettel_base "/templates/tpl-daily-plan.txt"))
            :immediate-finish t)
           ("w" "Daily plan" plain
-           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
-           (file "/media/sf_Shared/zettelkasten/templates/tpl-weekly-plan.txt")
+           (file+olp+datetree (concat zettel_base "/journal.org"))
+           (file (concat zettel_base "/templates/tpl-weekly-plan.txt"))
            :immediate-finish t)
           ("m" "Monthly plan" plain
-           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
-           (file "/media/sf_Shared/zettelkasten/templates/tpl-monthly-plan.txt")
+           (file+olp+datetree (concat zettel_base "/journal.org"))
+           (file (concat zettel_base "/templates/tpl-monthly-plan.txt"))
            :immediate-finish t)
           ))
   (setq org-enforce-todo-dependencies t)
@@ -729,7 +730,7 @@ before packages are loaded."
   ;; (Re)set org-agenda files. Spacemacs auto-updates the list list above in custom-set-variables
   (setq org-agenda-files ;Adds all .org files to agenda unless they are in the archive folder
         (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
-                    (directory-files-recursively "/media/sf_Shared/zettelkasten" "\\.org$")
+                    (directory-files-recursively zettel_base "\\.org$")
                     ))
   (global-tab-line-mode t) ;tabs with buffer names at the top of the window
   (global-unset-key (kbd "M-h"))
@@ -747,11 +748,24 @@ before packages are loaded."
               (define-key evil-normal-state-map (kbd "T") 'org-todo)
               (org-indent-mode)
               ))
+  (message "Setting state change hook")
+  (add-hook 'org-after-todo-state-change-hook (lambda ()
+                                                (interactive)
+                                                (message "hasdfasd")
+                                                (my/org-set-property-when-state-changes)))
   ;;useful functions
+  (defun my/org-set-property-when-state-changes ()
+    (interactive)
+    (message "HIHI")
+    (message (org-get-todo-state))
+    (when (equal (org-get-todo-state) "BLOCKED")
+      (let (msg (read-string "Describe blocker: "))
+        (org-set-property "BLOCKED_BY" msg)))
+    )
   (defun my/generate-new-store-file-name () "Ask for a title and generate a file name based on it"
          (let* ((store_nbr (read-string "Store #: "))
                 (my-path (concat
-                          "/media/sf_Shared/zettelkasten/2-areas/" ; Or whatever path you want
+                          (concat zettel_base "/2-areas/") ; Or whatever path you want
                           "str"
                           store_nbr
                           ".org")))
@@ -762,7 +776,7 @@ before packages are loaded."
          (let* ((inc (read-string "Incident #: "))
                                         ;(store (read-string "Store #: ")) #Might change to prompt user for addl details like store#, POC, phone #, summary later.
                 (my-path (concat
-                          "/media/sf_Shared/zettelkasten/1-projects/" ; Or whatever path you want
+                          (concat zettel_base "/1-projects/") ; Or whatever path you want
                           inc
                           ".org")))
                                         ;(setq my/org-capture-store_nbr store_nbr)
@@ -809,13 +823,11 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(nil nil t)
-   '(org-agenda-files
-     '("/media/sf_Shared/zettelkasten/1-projects/65653.org" "/media/sf_Shared/zettelkasten/2-areas/str5045.org" "/media/sf_Shared/zettelkasten/2-areas/str9999.org" "/media/sf_Shared/zettelkasten/daily/2024-09-24.org" "/media/sf_Shared/zettelkasten/daily/2024-09-25.org" "/media/sf_Shared/zettelkasten/templates/IncTemplate.org" "/media/sf_Shared/zettelkasten/templates/ScriptTemplate.org" "/media/sf_Shared/zettelkasten/templates/StoreTemplate.org" "/media/sf_Shared/zettelkasten/20240924043848-emacs_lisp.org" "/media/sf_Shared/zettelkasten/20240924044022-scheme.org" "/media/sf_Shared/zettelkasten/20240924062946-new_org.org" "/media/sf_Shared/zettelkasten/20240924063344-uhoh.org" "/media/sf_Shared/zettelkasten/20240924071703-test.org" "/media/sf_Shared/zettelkasten/20240924073127-str5045.org" "/media/sf_Shared/zettelkasten/20240924075259-hc_basic_checks.org" "/media/sf_Shared/zettelkasten/journal.org" "/media/sf_Shared/zettelkasten/newfile.org" "/media/sf_Shared/zettelkasten/prog_lang.org" "/media/sf_Shared/zettelkasten/tasks.org")))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
+   (custom-set-faces
+    ;; custom-set-faces was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    )
    )
   )
