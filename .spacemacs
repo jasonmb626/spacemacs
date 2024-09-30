@@ -611,7 +611,7 @@ before packages are loaded."
                                     ;; (Re)set org-agenda files. Spacemacs auto-updates the list list above in custom-set-variables
                                     (setq org-agenda-files ;Adds all .org files to agenda unless they are in the archive folder
                                           (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
-                                                      (directory-files-recursively "~/Documents/zettelkasten" "\\.org$")
+                                                      (directory-files-recursively "/media/sf_Shared/zettelkasten" "\\.org$")
                                                       ))
                                     ))
   (setq org-todo-keyword-faces
@@ -624,50 +624,50 @@ before packages are loaded."
         '(
           ("S" "Store" entry
            (file (lambda() (interactive) (my/generate-new-store-file-name)))
-           (file "~/Documents/zettelkasten/templates/store-template.txt")
+           (file "/media/sf_Shared/zettelkasten/templates/store-template.txt")
            :empty-lines-after 2)
           ("i" "Incident" entry
            (file (lambda() (interactive) (my/generate-new-inc-file-name)))
-           (file "~/Documents/zettelkasten/templates/inc-template.txt")
+           (file "/media/sf_Shared/zettelkasten/templates/inc-template.txt")
            :empty-lines-after 2)
           ("t" "TODO entry" entry
-           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
+           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
            "* TODO %^{Description} :NEW:\n  Desired outcome: %?\n  :LOGBOOK:\n  - Added: %U\n  :END:"
            :empty-lines-before 1)
           ("i" "Incoming Phone call" entry
-           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/templates/in-call-template.txt")
+           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
+           (file "/media/sf_Shared/zettelkasten/templates/in-call-template.txt")
            :empty-lines-after 2)
           ("o" "Outgoing Phone call" entry
-           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
-           (file "~/Documents/zettelkasten/templates/out-call-template.txt")
+           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
+           (file "/media/sf_Shared/zettelkasten/templates/out-call-template.txt")
            :empty-lines-after 2)
           ("e" "Email" entry
-           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
-           (file "~/Documents/zettelkasten/templates/email-template.txt")
+           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
+           (file "/media/sf_Shared/zettelkasten/templates/email-template.txt")
            :empty-lines-after 2)
           ("s" "Script" entry
-           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
-           (file "~/Documents/zettelkasten/templates/script-template.txt")
+           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
+           (file "/media/sf_Shared/zettelkasten/templates/script-template.txt")
            :empty-lines-after 2)
           ("m" "Meeting" entry
-           (file+headline "~/Documents/zettelkasten/journal.org" "Capture")
-           (file "~/Documents/zettelkasten/templates/meeting-template.txt")
+           (file+headline "/media/sf_Shared/zettelkasten/journal.org" "Capture")
+           (file "/media/sf_Shared/zettelkasten/templates/meeting-template.txt")
            :empty-lines-after 2)
           ("j" "Journal entry" entry
-           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
+           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
            "* %U - %^{Activity}")
           ("d" "Daily plan" plain
-           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/templates/tpl-daily-plan.txt")
+           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
+           (file "/media/sf_Shared/zettelkasten/templates/tpl-daily-plan.txt")
            :immediate-finish t)
           ("w" "Daily plan" plain
-           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/templates/tpl-weekly-plan.txt")
+           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
+           (file "/media/sf_Shared/zettelkasten/templates/tpl-weekly-plan.txt")
            :immediate-finish t)
           ("m" "Monthly plan" plain
-           (file+olp+datetree "~/Documents/zettelkasten/journal.org")
-           (file "~/Documents/zettelkasten/templates/tpl-monthly-plan.txt")
+           (file+olp+datetree "/media/sf_Shared/zettelkasten/journal.org")
+           (file "/media/sf_Shared/zettelkasten/templates/tpl-monthly-plan.txt")
            :immediate-finish t)
           ))
   (setq org-enforce-todo-dependencies t)
@@ -729,7 +729,7 @@ before packages are loaded."
   ;; (Re)set org-agenda files. Spacemacs auto-updates the list list above in custom-set-variables
   (setq org-agenda-files ;Adds all .org files to agenda unless they are in the archive folder
         (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
-                    (directory-files-recursively "~/Documents/zettelkasten" "\\.org$")
+                    (directory-files-recursively "/media/sf_Shared/zettelkasten" "\\.org$")
                     ))
   (global-tab-line-mode t) ;tabs with buffer names at the top of the window
   (global-unset-key (kbd "M-h"))
@@ -751,7 +751,7 @@ before packages are loaded."
   (defun my/generate-new-store-file-name () "Ask for a title and generate a file name based on it"
          (let* ((store_nbr (read-string "Store #: "))
                 (my-path (concat
-                          "~/Documents/zettelkasten/2-areas/" ; Or whatever path you want
+                          "/media/sf_Shared/zettelkasten/2-areas/" ; Or whatever path you want
                           "str"
                           store_nbr
                           ".org")))
@@ -762,7 +762,7 @@ before packages are loaded."
          (let* ((inc (read-string "Incident #: "))
                                         ;(store (read-string "Store #: ")) #Might change to prompt user for addl details like store#, POC, phone #, summary later.
                 (my-path (concat
-                          "~/Documents/zettelkasten/1-projects/" ; Or whatever path you want
+                          "/media/sf_Shared/zettelkasten/1-projects/" ; Or whatever path you want
                           inc
                           ".org")))
                                         ;(setq my/org-capture-store_nbr store_nbr)
@@ -811,7 +811,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; If there is more than one, they won't work right.
    '(nil nil t)
    '(org-agenda-files
-     '("/home/jason/Documents/zettelkasten/1-projects/65653.org" "/home/jason/Documents/zettelkasten/2-areas/str5045.org" "/home/jason/Documents/zettelkasten/2-areas/str9999.org" "/home/jason/Documents/zettelkasten/daily/2024-09-24.org" "/home/jason/Documents/zettelkasten/daily/2024-09-25.org" "/home/jason/Documents/zettelkasten/templates/IncTemplate.org" "/home/jason/Documents/zettelkasten/templates/ScriptTemplate.org" "/home/jason/Documents/zettelkasten/templates/StoreTemplate.org" "/home/jason/Documents/zettelkasten/20240924043848-emacs_lisp.org" "/home/jason/Documents/zettelkasten/20240924044022-scheme.org" "/home/jason/Documents/zettelkasten/20240924062946-new_org.org" "/home/jason/Documents/zettelkasten/20240924063344-uhoh.org" "/home/jason/Documents/zettelkasten/20240924071703-test.org" "/home/jason/Documents/zettelkasten/20240924073127-str5045.org" "/home/jason/Documents/zettelkasten/20240924075259-hc_basic_checks.org" "/home/jason/Documents/zettelkasten/journal.org" "/home/jason/Documents/zettelkasten/newfile.org" "/home/jason/Documents/zettelkasten/prog_lang.org" "/home/jason/Documents/zettelkasten/tasks.org")))
+     '("/media/sf_Shared/zettelkasten/1-projects/65653.org" "/media/sf_Shared/zettelkasten/2-areas/str5045.org" "/media/sf_Shared/zettelkasten/2-areas/str9999.org" "/media/sf_Shared/zettelkasten/daily/2024-09-24.org" "/media/sf_Shared/zettelkasten/daily/2024-09-25.org" "/media/sf_Shared/zettelkasten/templates/IncTemplate.org" "/media/sf_Shared/zettelkasten/templates/ScriptTemplate.org" "/media/sf_Shared/zettelkasten/templates/StoreTemplate.org" "/media/sf_Shared/zettelkasten/20240924043848-emacs_lisp.org" "/media/sf_Shared/zettelkasten/20240924044022-scheme.org" "/media/sf_Shared/zettelkasten/20240924062946-new_org.org" "/media/sf_Shared/zettelkasten/20240924063344-uhoh.org" "/media/sf_Shared/zettelkasten/20240924071703-test.org" "/media/sf_Shared/zettelkasten/20240924073127-str5045.org" "/media/sf_Shared/zettelkasten/20240924075259-hc_basic_checks.org" "/media/sf_Shared/zettelkasten/journal.org" "/media/sf_Shared/zettelkasten/newfile.org" "/media/sf_Shared/zettelkasten/prog_lang.org" "/media/sf_Shared/zettelkasten/tasks.org")))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
