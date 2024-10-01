@@ -582,7 +582,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq org-directory (getenv "ORG-DIRECTORY"))
+  (setq org-directory (getenv "ZETTEL_BASEY"))
   (setq org-track-ordered-property-with-tag t)
   (setq org-use-property-inheritance t)
   (setq org-todo-keywords
@@ -660,7 +660,7 @@ before packages are loaded."
            (file "templates/tpl-weekly-plan.txt")
            :immediate-finish t)
           ("m" "Monthly plan" plain
-           (file+olp+datetree "/journal.org")
+           (file+olp+datetree "journal.org")
            (file "templates/tpl-monthly-plan.txt")
            :immediate-finish t)
           ))
