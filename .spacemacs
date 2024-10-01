@@ -597,6 +597,7 @@ before packages are loaded."
                         (:startgroup . nil)
                         ("INCIDENT" . ?i)
                         ("NUCLEUS-INC" . ?n)
+                        ("TRAINING" . ?r)
                         ("SCRIPTING" . ?s)
                         ("CUST-MEETING" . ?c)
                         ("TCS-MEETING" . ?t)
