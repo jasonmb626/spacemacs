@@ -586,7 +586,7 @@ before packages are loaded."
   (setq org-track-ordered-property-with-tag t)
   (setq org-use-property-inheritance t)
   (setq org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n!)" "IN PROGRESS(i!)" "BLOCKED(b@/!)" "PEND SET STATE(p!)" "TO DELEGATE(g!)" "DELEGATED(D@/!)" "FOLLOWUP(f!)" "FORWARDED(F@/!)" "TICKLE(T!)" "WAITING(W@/!)" "|" "CANCELED(c!)" "DONE(d!)")))
+        '((sequence "TODO(t!)" "NEXT(n!)" "IN PROGRESS(i!)" "BLOCKED(b@/!)" "PEND SET STATE(p!)" "TO DELEGATE(2!)" "DELEGATED(g@/!)" "FOLLOWUP(f!)" "FORWARDED(>@/!)" "ADJOURNED(a!)" "|" "CANCELED(c!)" "DONE(d!)")))
   (setq org-clock-in-switch-to-state "IN PROGRESS")
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3))) ; any agenda file will show up in the list when choosing to refile
   (setq org-log-into-drawer "LOGBOOK") ;when adding a note, put them in logbook drawer
