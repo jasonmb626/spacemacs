@@ -582,21 +582,21 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq zettel_base (getenv "ZETTEL_BASE"))
+  (setq org-directory (getenv "ORG-DIRECTORY"))
   (setq org-track-ordered-property-with-tag t)
   (setq org-use-property-inheritance t)
   (setq org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n!)" "IN PROGRESS(i!)" "BLOCKED(b@/!)" "PEND SET STATE(p!)" "TO DELEGATE(g!)" "DELEGATED(D@/!)" "FOLLOWUP(f!)" "FORWARDED(F@/!)" "TICKLE(T!)" "|" "CANCELED(c!)" "DONE(d!)")))
+        '((sequence "TODO(t!)" "NEXT(n!)" "IN PROGRESS(i!)" "BLOCKED(b@/!)" "PEND SET STATE(p!)" "TO DELEGATE(g!)" "DELEGATED(D@/!)" "FOLLOWUP(f!)" "FORWARDED(F@/!)" "TICKLE(T!)" "WAITING(W@/!)" "|" "CANCELED(c!)" "DONE(d!)")))
   (setq org-clock-in-switch-to-state "IN PROGRESS")
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 2))) ; any agenda file will show up in the list when choosing to refile
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3))) ; any agenda file will show up in the list when choosing to refile
   (setq org-log-into-drawer "LOGBOOK") ;when adding a note, put them in logbook drawer
   ;; TODO find out how to bring up menu to choose state when clocking out
   (setq org-clock-out-switch-to-state "PEND SET STATE")
   (setq org-log-reschedule 'time) ;puts a note in logbook drawer when a task is rescheudled
-  (setq org-tag-alist '(("@NEW" . ?N)
+  (setq org-tag-alist '(("NEW" . ?N)
                         (:startgroup . nil)
-                        ("@INCIDENT" . ?i)
-                        ("@NUCLEUS-INC" . ?n)
+                        ("INCIDENT" . ?i)
+                        ("NUCLEUS-INC" . ?n)
                         ("SCRIPTING" . ?s)
                         ("CUST-MEETING" . ?c)
                         ("TCS-MEETING" . ?t)
@@ -612,7 +612,7 @@ before packages are loaded."
                                     ;; (Re)set org-agenda files. Spacemacs auto-updates the list list above in custom-set-variables
                                     (setq org-agenda-files ;Adds all .org files to agenda unless they are in the archive folder
                                           (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
-                                                      (directory-files-recursively zettel_base "\\.org$")
+                                                      (directory-files-recursively org-directory "\\.org$")
                                                       ))
                                     ))
   (setq org-todo-keyword-faces
@@ -625,50 +625,43 @@ before packages are loaded."
         '(
           ("S" "Store" entry
            (file (lambda() (interactive) (my/generate-new-store-file-name)))
-           (file (concat zettel_base "/templates/store-template.txt"))
-           :empty-lines-after 2)
+           (file "templates/store-template.txt"))
           ("i" "Incident" entry
            (file (lambda() (interactive) (my/generate-new-inc-file-name)))
-           (file (concat zettel_base "/templates/inc-template.txt"))
-           :empty-lines-after 2)
+           (file "templates/inc-template.txt"))
           ("t" "TODO entry" entry
-           (file+headline (concat zettel_base "/journal.org" "Capture"))
+           (file+headline "journal.org" "Capture")
            "* TODO %^{Description} :NEW:\n  Desired outcome: %?\n  :LOGBOOK:\n  - Added: %U\n  :END:"
            :empty-lines-before 1)
           ("i" "Incoming Phone call" entry
-           (file+olp+datetree (concat zettel_base "/journal.org"))
-           (file (concat zettel_base "/templates/in-call-template.txt"))
-           :empty-lines-after 2)
+           (file+olp+datetree "journal.org")
+           (file "templates/in-call-template.txt"))
           ("o" "Outgoing Phone call" entry
-           (file+headline (concat zettel_base "/journal.org" "Capture"))
-           (file (concat zettel_base "/templates/out-call-template.txt"))
-           :empty-lines-after 2)
+           (file+headline "journal.org" "Capture")
+           (file "templates/out-call-template.txt"))
           ("e" "Email" entry
-           (file+headline (concat zettel_base "/journal.org" "Capture"))
-           (file (concat zettel_base "/templates/email-template.txt"))
-           :empty-lines-after 2)
+           (file+headline "journal.org" "Capture")
+           (file "templates/email-template.txt"))
           ("s" "Script" entry
-           (file+headline (concat zettel_base "/journal.org" "Capture"))
-           (file (concat zettel_base "/templates/script-template.txt"))
-           :empty-lines-after 2)
+           (file+headline "journal.org" "Capture")
+           (file "templates/script-template.txt"))
           ("m" "Meeting" entry
-           (file+headline (concat zettel_base "/journal.org" "Capture"))
-           (file (concat zettel_base "/templates/meeting-template.txt"))
-           :empty-lines-after 2)
+           (file+headline "journal.org" "Capture")
+           (file "templates/meeting-template.txt"))
           ("j" "Journal entry" entry
-           (file+olp+datetree (concat zettel_base "/journal.org"))
+           (file+olp+datetree "journal.org")
            "* %U - %^{Activity}")
           ("d" "Daily plan" plain
-           (file+olp+datetree (concat zettel_base "/journal.org"))
-           (file (concat zettel_base "/templates/tpl-daily-plan.txt"))
+           (file+olp+datetree "journal.org")
+           (file "templates/tpl-daily-plan.txt")
            :immediate-finish t)
           ("w" "Daily plan" plain
-           (file+olp+datetree (concat zettel_base "/journal.org"))
-           (file (concat zettel_base "/templates/tpl-weekly-plan.txt"))
+           (file+olp+datetree "journal.org")
+           (file "templates/tpl-weekly-plan.txt")
            :immediate-finish t)
           ("m" "Monthly plan" plain
-           (file+olp+datetree (concat zettel_base "/journal.org"))
-           (file (concat zettel_base "/templates/tpl-monthly-plan.txt"))
+           (file+olp+datetree "/journal.org")
+           (file "templates/tpl-monthly-plan.txt")
            :immediate-finish t)
           ))
   (setq org-enforce-todo-dependencies t)
@@ -730,7 +723,7 @@ before packages are loaded."
   ;; (Re)set org-agenda files. Spacemacs auto-updates the list list above in custom-set-variables
   (setq org-agenda-files ;Adds all .org files to agenda unless they are in the archive folder
         (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
-                    (directory-files-recursively zettel_base "\\.org$")
+                    (directory-files-recursively org-directory "\\.org$")
                     ))
   (global-tab-line-mode t) ;tabs with buffer names at the top of the window
   (global-unset-key (kbd "M-h"))
@@ -761,7 +754,7 @@ before packages are loaded."
   (defun my/generate-new-store-file-name () "Ask for a title and generate a file name based on it"
          (let* ((store_nbr (read-string "Store #: "))
                 (my-path (concat
-                          (concat zettel_base "/2-areas/") ; Or whatever path you want
+                          (concat org-directory "/2-areas/") ; Or whatever path you want
                           "str"
                           store_nbr
                           ".org")))
@@ -772,7 +765,7 @@ before packages are loaded."
          (let* ((inc (read-string "Incident #: "))
                                         ;(store (read-string "Store #: ")) #Might change to prompt user for addl details like store#, POC, phone #, summary later.
                 (my-path (concat
-                          (concat zettel_base "/1-projects/") ; Or whatever path you want
+                          (concat org-directory "/1-projects/") ; Or whatever path you want
                           inc
                           ".org")))
                                         ;(setq my/org-capture-store_nbr store_nbr)
