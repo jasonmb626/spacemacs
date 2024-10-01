@@ -582,7 +582,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq org-directory (getenv "ZETTEL_BASEY"))
+  (setq org-directory (getenv "ZETTEL_BASE"))
   (setq org-track-ordered-property-with-tag t)
   (setq org-use-property-inheritance t)
   (setq org-todo-keywords
@@ -643,7 +643,7 @@ before packages are loaded."
            (file+headline "journal.org" "Capture")
            (file "templates/email-template.txt"))
           ("s" "Script" entry
-           (file+headline "journal.org" "Capture")
+           (file (lambda() (interactive) (my/generate-new-script-file-name)))
            (file "templates/script-template.txt"))
           ("m" "Meeting" entry
            (file+headline "journal.org" "Capture")
@@ -725,6 +725,7 @@ before packages are loaded."
         (seq-filter (lambda(x) (not (string-match "/archive/"(file-name-directory x))))
                     (directory-files-recursively org-directory "\\.org$")
                     ))
+  (message "Setting tabline mode")
   (global-tab-line-mode t) ;tabs with buffer names at the top of the window
   (global-unset-key (kbd "M-h"))
   (global-set-key (kbd "M-h") (lambda () (interactive) (previous-buffer)))
@@ -741,6 +742,7 @@ before packages are loaded."
               (define-key evil-normal-state-map (kbd "T") 'org-todo)
               (org-indent-mode)
               ))
+  (message "Useful functions")
   ;;useful functions
   (defun my/org-set-property-when-state-changes ()
     (interactive)
@@ -754,8 +756,7 @@ before packages are loaded."
   (defun my/generate-new-store-file-name () "Ask for a title and generate a file name based on it"
          (let* ((store_nbr (read-string "Store #: "))
                 (my-path (concat
-                          (concat org-directory "/2-areas/") ; Or whatever path you want
-                          "str"
+                          "2-areas/str"
                           store_nbr
                           ".org")))
            (setq my/org-capture-store_nbr store_nbr)
@@ -765,13 +766,22 @@ before packages are loaded."
          (let* ((inc (read-string "Incident #: "))
                                         ;(store (read-string "Store #: ")) #Might change to prompt user for addl details like store#, POC, phone #, summary later.
                 (my-path (concat
-                          (concat org-directory "/1-projects/") ; Or whatever path you want
+                          "1-projects/"
                           inc
                           ".org")))
                                         ;(setq my/org-capture-store_nbr store_nbr)
            (setq my/org-capture-inc inc)
            (setq my/org-capture-inc-file_path my-path)) ; Save variable to be used later in the template
          my/org-capture-inc-file_path)
+  (defun my/generate-new-script-file-name () "Ask for a title and generate a file name based on it"
+         (let* ((script_name (read-string "Script Name: "))
+                (my-path (concat
+                          "1-projects/script_"
+                          script_name
+                          ".org")))
+           (setq my/org-capture-script-name script_name)
+           (setq my/org-capture-script-file-path my-path)) ; Save variable to be used later in the template
+         my/org-capture-script-file-path)
   (defun my/org-insert-subheading (arg)
     "Insert a new subheading and demote it.
 Works for outline headings and for plain lists alike.
