@@ -1,5 +1,5 @@
 ###############################     Base    #################################################
-FROM alpine:latest AS base
+FROM opensuse/tumbleweed:latest AS base
 
 ARG UID=1000
 ARG GID=1000
@@ -14,13 +14,12 @@ ENV ZETTEL_BASE=/home/app/Documents/zettelkasten
 ENV TEMPLATE_BASE=/home/app/.emacs.d/templates
 
 WORKDIR /app
-RUN apk add -U py3-pip npm zsh \
-    && sed -i 's,root:x:0:0:root:/root:/bin/ash,root:x:0:0:root:/root:/bin/zsh,g' /etc/passwd
+RUN zypper -n install python3-pip npm zsh \
+    && sed -i 's,root:x:0:0:root:/root:/bin/bash,root:x:0:0:root:/root:/bin/zsh,g' /etc/passwd
 
 RUN if [[ $UID -ne 0 ]]; then \
-    apk add -U py3-pip npm zsh\
-        && addgroup -g ${GID} app \
-        && adduser -D -u ${UID} -G app -s /bin/zsh app \
+        groupadd -g ${GID} app \
+        && useradd -u ${UID} -g 1000 -s /bin/zsh app \
         && chmod 777 /tmp \
         && mkdir -p /app/node_modules\
         && chown -R app:app /app \
@@ -64,17 +63,18 @@ FROM base AS dev
 
 USER root:root
 
-RUN apk add -U git\ 
-         lua-dev luarocks stylua\
-         lazygit openssh\
-         tmux neovim neovim-doc emacs\
-         procps\
-         tmux\
-         ripgrep\
-         alpine-sdk\
-         tree-sitter tree-sitter-cli\
-         sudo \
-         unzip gzip fd mercurial wget\
+RUN zypper -n install\
+        dos2unix\
+        git\
+        lazygit\
+        openssh\
+        tmux neovim emacs\
+        ripgrep\
+        tree-sitter\
+        sudo\
+        fd\
+        mercurial\
+        wget\
     && npm install -g neovim\
     && mkdir -p /etc/sudoers.d && echo 'app ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/app \
     && mkdir -p /home/app/.config/tmux \
@@ -83,7 +83,7 @@ RUN apk add -U git\
     && chown -R app:app /home/app/.local \
     && mkdir -p /home/app/.ssh && chown -R app:app /home/app/.ssh \
     && mkdir -p /home/app/Documents/zettelkasten && chown -R app:app /home/app/Documents/zettelkasten \
-    && sed -i 's,#HostKey /etc/ssh/ssh_host_rsa_key,HostKey /home/app/.ssh/id_ed25519,' /etc/ssh/sshd_config \
+    && echo 'HostKey %h/.ssh/id_ed25519' > /etc/ssh/sshd_config \
     && echo "$AUPK" >/home/app/.ssh/authorized_keys \
     && chown app:app /home/app/.ssh/authorized_keys && chmod 600 /home/app/.ssh/authorized_keys
 
@@ -99,6 +99,8 @@ RUN source /home/app/.venvs/app/bin/activate\
     && git clone https://github.com/jasonmb626/my-lazyvim-starter.git /home/app/.config/nvim \
     && git clone https://github.com/jasonmb626/dotfiles-dev.git /tmp/dotfiles-dev \
     && git clone https://github.com/jasonmb626/spacemacs.git ~/.emacs.d \
+    && mkdir -p ~/.emacs.d/elpa && mkdir -p ~/.emacs.d/quelpa && mkdir -p ~/.emacs.d/.cache \
+    && touch ~/.emacs.d/recentf\
     && ln -s /home/app/.emacs.d/.spacemacs /home/app/.spacemacs \
     && mv /tmp/dotfiles-dev/tmux/tmux.conf /home/app/.config/tmux/tmux.conf \
     && mv /tmp/dotfiles-dev/zsh /home/app/.config/ && rm -fr /tmp/dotfiles-dev \
