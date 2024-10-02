@@ -2,6 +2,7 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+(string= (concat "a" "b") "ab")
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -575,7 +576,6 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
   )
 
-
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -583,6 +583,7 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq org-directory (getenv "ZETTEL_BASE"))
+  (setq templates_dir (getenv "ORG_TEMPLATES_DIR"))
   (setq org-track-ordered-property-with-tag t)
   (setq org-use-property-inheritance t)
   (setq org-todo-keywords
@@ -623,13 +624,13 @@ before packages are loaded."
           ("DELEGATED" . "pink")
           ("NEXT" . "#008080")))
   (setq org-capture-templates
-        '(
+        `(
           ("S" "Store" entry
            (file (lambda() (interactive) (my/generate-new-store-file-name)))
-           (file "templates/store-template.txt"))
+           (file  ,(concat templates_dir "/store-template.txt")))
           ("i" "Incident" entry
            (file (lambda() (interactive) (my/generate-new-inc-file-name)))
-           (file "templates/inc-template.txt"))
+           (file  ,(concat templates_dir "/inc-template.txt")))
           ("t" "TODO entry" entry
            (file+headline "journal.org" "Capture")
            "* TODO %^{Description} :NEW:\n  Desired outcome: %?\n  :LOGBOOK:\n  - Added: %U\n  :END:"
@@ -639,30 +640,30 @@ before packages are loaded."
            (file "templates/in-call-template.txt"))
           ("o" "Outgoing Phone call" entry
            (file+headline "journal.org" "Capture")
-           (file "templates/out-call-template.txt"))
+           (file  ,(concat templates_dir "/out-call-template.txt")))
           ("e" "Email" entry
            (file+headline "journal.org" "Capture")
-           (file "templates/email-template.txt"))
+           (file  ,(concat templates_dir "/email-template.txt")))
           ("s" "Script" entry
            (file (lambda() (interactive) (my/generate-new-script-file-name)))
-           (file "templates/script-template.txt"))
+           (file  ,(concat templates_dir "/script-template.txt")))
           ("m" "Meeting" entry
            (file+headline "journal.org" "Capture")
-           (file "templates/meeting-template.txt"))
+           (file  ,(concat templates_dir "/meeting-template.txt")))
           ("j" "Journal entry" entry
            (file+olp+datetree "journal.org")
            "* %U - %^{Activity}")
           ("d" "Daily plan" plain
            (file+olp+datetree "journal.org")
-           (file "templates/tpl-daily-plan.txt")
+           (file  ,(concat templates_dir "/tpl-daily-plan.txt"))
            :immediate-finish t)
           ("w" "Daily plan" plain
            (file+olp+datetree "journal.org")
-           (file "templates/tpl-weekly-plan.txt")
+           (file  ,(concat templates_dir "/tpl-weekly-plan.txt"))
            :immediate-finish t)
           ("m" "Monthly plan" plain
            (file+olp+datetree "journal.org")
-           (file "templates/tpl-monthly-plan.txt")
+           (file  ,(concat templates_dir "/tpl-monthly-plan.txt"))
            :immediate-finish t)
           ))
   (setq org-enforce-todo-dependencies t)
