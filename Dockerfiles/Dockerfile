@@ -39,7 +39,7 @@ RUN source /home/app/.venvs/app/bin/activate\
       exec sudo /usr/sbin/sshd -D -e "\$@" &
     fi
     source /home/app/.venvs/app/bin/activate
-    /home/app/.config/nvim/bin/do_my_lazyvim_tweaks.sh
+    /home/app/.config/nvim/bin/do_my_lazyvim_tweaks.sh 2>/dev/null
     if [[ -d /app/node_modules ]]; then
         size_of=\$(du /app/node_modules | tail -n 1 | awk {'print \$1'})
         if [[ \$size_of -eq 0 ]]; then
