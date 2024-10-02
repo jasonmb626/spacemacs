@@ -19,7 +19,7 @@ services:
       - ./zettelkasten:/home/app/Documents/zettelkasten
       - ./spacemacs/.spacemacs:/home/app/.spacemacs
       - ./spacemacs/templates:/home/app/templates
-      - ~/.ssh/github_id_ed25519:/home/app/.ssh/github_id_ed25519:z
+      #- ~/.ssh/github_id_ed25519:/home/app/.ssh/github_id_ed25519:z
     stdin_open: true
     tty: true
     ports:
