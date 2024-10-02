@@ -98,8 +98,6 @@ RUN source /home/app/.venvs/app/bin/activate\
     && git clone https://github.com/tmux-plugins/tpm /home/app/.config/tmux/plugins/tpm \
     && git clone https://github.com/jasonmb626/my-lazyvim-starter.git /home/app/.config/nvim \
     && git clone https://github.com/jasonmb626/dotfiles-dev.git /tmp/dotfiles-dev \
-    && mkdir -p ~/.emacs.d/elpa && mkdir -p ~/.emacs.d/quelpa && mkdir -p ~/.emacs.d/.cache \
-    && touch ~/.emacs.d/recentf\
     && mv /tmp/dotfiles-dev/tmux/tmux.conf /home/app/.config/tmux/tmux.conf \
     && mv /tmp/dotfiles-dev/zsh /home/app/.config/ && rm -fr /tmp/dotfiles-dev \
     && /bin/zsh -c "source /home/app/.config/zsh/.zshrc" \
@@ -110,6 +108,8 @@ RUN source /home/app/.venvs/app/bin/activate\
     && ssh-keygen -t ed25519 -f /home/app/.ssh/id_ed25519 -q -N "" -C dockercnt
 
 RUN git clone https://github.com/jasonmb626/spacemacs.git ~/.emacs.d \
+    && mkdir -p ~/.emacs.d/elpa && mkdir -p ~/.emacs.d/quelpa && mkdir -p ~/.emacs.d/.cache \
+    && touch ~/.emacs.d/recentf\
     && ln -s /home/app/.emacs.d/.spacemacs /home/app/.spacemacs
 
 CMD ["tmux"]
