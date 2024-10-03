@@ -49,6 +49,12 @@ ZETTEL_BASE=/home/jason/Documents/zettelkasten
 
 -------------------------------------------------------------------------------------
 
+Put this in the "actions" array in the settings.json for your Windows terminal to allow Ctrl+v to work
+
+{ "command": "unbound", "keys": "ctrl+v" },
+
+-------------------------------------------------------------------------------------
+
 If you *don't* have an existing Emacs setup and want to run Spacemacs as your
 configuration, and if you have all [prerequisites](#prerequisites) installed,
 you can install Spacemacs with one line:
