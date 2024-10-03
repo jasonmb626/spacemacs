@@ -10,7 +10,7 @@ ENV LANG=en_US.UTF-8
 ENV ZDOTDIR=/home/app/.config/zsh/
 ENV XDG_CACHE_HOME=/home/app/.local/cache
 ENV ZETTEL_BASE=/home/app/Documents/zettelkasten
-ENV TEMPLATE_BASE=/home/app/.emacs.d/templates
+ENV ORG_TEMPLATES_DIR=/home/app/.emacs.d/templates
 
 WORKDIR /app
 RUN groupadd -g ${GID} app \
