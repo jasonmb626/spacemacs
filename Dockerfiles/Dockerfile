@@ -3,7 +3,6 @@ FROM opensuse/tumbleweed:latest AS base
 
 ARG UID=1000
 ARG GID=1000
-ARG AUPK="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICOOv7RLdJ6H7j+ERCHsU8B6Adadw+QaXWdBBdr1D/lE localdocker"
 
 #These (esp the LANG variable) make sure tmux outputs UTF-8. Needed for special chars
 ENV GDM_LANG=en_US.UTF-8
@@ -13,27 +12,15 @@ ENV XDG_CACHE_HOME=/home/app/.local/cache
 ENV ZETTEL_BASE=/home/app/Documents/zettelkasten
 ENV TEMPLATE_BASE=/home/app/.emacs.d/templates
 
-RUN if [[ $UID -ne 0 ]]; then \
-        groupadd -g ${GID} app \
-        && useradd -u ${UID} -g 1000 -s /bin/zsh app \
-        && chmod 777 /tmp \
-        && mkdir -p /app/node_modules\
-        && chown -R app:app /app \
-        && touch /run/sshd.pid && chmod 777 /run/sshd.pid \
-        && echo "app:*" | chpasswd -e \
-        && mkdir -p /home/app/.ssh && chown -R app:app /home/app/.ssh; \
-    fi
-
-#RUN zypper -n install openssh
-RUN mkdir -p /etc/ssh\
-    && echo "PasswordAuthentication no\nUsePAM yes\nHostKey /home/app/.ssh/id_ed25519\nAuthorizedKeysFile /home/app/.ssh/authorized_keys" > /etc/ssh/sshd_config \
-    && mkdir -p /home/app/Documents/zettelkasten && chown -R app:app /home/app/Documents/zettelkasten \
-    && echo "$AUPK" >/home/app/.ssh/authorized_keys \
-    && chown app:app /home/app/.ssh/authorized_keys && chmod 600 /home/app/.ssh/authorized_keys
-
 WORKDIR /app
-
-RUN zypper -n install \
+RUN groupadd -g ${GID} app \
+    && useradd -u ${UID} -g 1000 -s /bin/zsh app \
+    && chmod 777 /tmp \
+    && mkdir -p /app/node_modules\
+    && chown -R app:app /app \
+    && echo "app:*" | chpasswd -e \
+    && zypper -n install \
+        openssh\
         python3-pip\
         npm\
         zsh \
@@ -54,15 +41,9 @@ RUN zypper -n install \
     && chown -R app:app /home/app/.config\
     && mkdir -p /home/app/.local \
     && chown -R app:app /home/app/.local \
-    && mkdir -p /home/app/.ssh && chown -R app:app /home/app/.ssh
-
-
-USER app:app
-COPY requirements.txt /tmp
-RUN python3 -m venv /home/app/.venvs/app \
+    && python3 -m venv /home/app/.venvs/app \
     && source /home/app/.venvs/app/bin/activate\
     && pip3 install --upgrade pip \
-    && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt \
     && pip3 install pynvim pylint\
     && mkdir -p /home/app/.config/tmux/plugins && chown app:app /home/app/.config/tmux/plugins/ \
     && git config --global http.version HTTP/1.1 \
@@ -73,15 +54,7 @@ RUN python3 -m venv /home/app/.venvs/app \
     && mv /tmp/dotfiles-dev/zsh /home/app/.config/ && rm -fr /tmp/dotfiles-dev \
     && /bin/zsh -c "source /home/app/.config/zsh/.zshrc" \
     && mv /home/app/.config/zsh/.zshrc /tmp/.zshrc \
-    && cat /tmp/zshrc_preamble /tmp/.zshrc > /home/app/.config/zsh/.zshrc \
-    && rm /tmp/zshrc_preamble /tmp/.zshrc \
-    && dos2unix /home/app/.config/zsh/.zshrc \  
-    && ssh-keygen -t ed25519 -f /home/app/.ssh/id_ed25519 -q -N "" -C dockercnt \
     && cat <<EOF >/tmp/zshrc_preamble
-    SSHD_PID=\$(ps aux | grep sshd | grep -v grep | awk '{print \$2}')
-   if [[ "\$SSHD_PID" == "" ]]; then
-      exec sudo /usr/sbin/sshd -D -e "\$@" &
-    fi
     source /home/app/.venvs/app/bin/activate
     /home/app/.config/nvim/bin/do_my_lazyvim_tweaks.sh 2>/dev/null
     if [[ -d /app/node_modules ]]; then
@@ -92,9 +65,18 @@ RUN python3 -m venv /home/app/.venvs/app \
     fi
 EOF
 
-RUN git clone https://github.com/jasonmb626/spacemacs.git ~/.emacs.d \
-    && mkdir -p ~/.emacs.d/elpa && mkdir -p ~/.emacs.d/quelpa && mkdir -p ~/.emacs.d/.cache \
-    && touch ~/.emacs.d/recentf\
-    && ln -s /home/app/.emacs.d/.spacemacs /home/app/.spacemacs
+COPY requirements.txt /tmp
+RUN git clone https://github.com/jasonmb626/spacemacs.git /home/app/.emacs.d \
+    && mkdir -p /home/app/Documents/zettelkasten && chown -R app:app /home/app/Documents/zettelkasten \
+    && mkdir -p /home/app/.emacs.d/elpa && mkdir -p /home/app/.emacs.d/quelpa && mkdir -p /home/app/.emacs.d/.cache \
+    && touch /home/app/.emacs.d/recentf \
+    && ln -s /home/app/.emacs.d/.spacemacs /home/app/.spacemacs \
+    && cat /tmp/zshrc_preamble /tmp/.zshrc > /home/app/.config/zsh/.zshrc \
+    && rm /tmp/zshrc_preamble /tmp/.zshrc \
+    && dos2unix /home/app/.config/zsh/.zshrc \
+    && source /home/app/.venvs/app/bin/activate\
+    && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt \
+    && chown -R app:app /home/app/
 
+USER app:app
 CMD ["tmux"]
